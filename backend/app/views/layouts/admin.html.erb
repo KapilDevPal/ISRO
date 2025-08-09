@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Space Explorer Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-100">
+    <nav class="bg-gray-800 text-white p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold">Space Explorer Admin</h1>
+        <div class="flex space-x-4">
+          <%= link_to "Dashboard", admin_dashboard_path, class: "hover:text-gray-300" %>
+          <%= link_to "Organizations", admin_organizations_path, class: "hover:text-gray-300" %>
+          <%= link_to "Rockets", admin_rockets_path, class: "hover:text-gray-300" %>
+          <%= link_to "Launches", admin_launches_path, class: "hover:text-gray-300" %>
+          <%= link_to "Satellites", admin_satellites_path, class: "hover:text-gray-300" %>
+          <%= link_to "News", admin_news_index_path, class: "hover:text-gray-300" %>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container mx-auto p-4">
+      <% if notice %>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <%= notice %>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <%= alert %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html> 

@@ -40,6 +40,9 @@ gem "rack-cors"
 # HTTP client for external API calls
 gem "httparty", "~> 0.21.0"
 
+# Active Admin for admin interface (commented out due to assets issue)
+# gem "activeadmin", "~> 3.2"
+
 # Background job processing
 gem "sidekiq", "~> 7.0"
 

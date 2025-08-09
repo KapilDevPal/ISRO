@@ -131,6 +131,7 @@ show_status() {
     echo "🌐 Access URLs:"
     echo "   Frontend: http://localhost:3000"
     echo "   Backend API: http://localhost:3001"
+    echo "   Admin Dashboard: http://localhost:3001/admin/dashboard"
     echo "   API Dashboard: http://localhost:3001/api/v1/dashboard"
 }
 

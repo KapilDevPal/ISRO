@@ -3,6 +3,7 @@ class Organization < ApplicationRecord
   
   has_many :rockets, dependent: :destroy
   has_many :satellites, dependent: :destroy
+  has_many :launches, through: :rockets
 
   validates :name, presence: true, uniqueness: true
   validates :country, presence: true
@@ -18,5 +19,9 @@ class Organization < ApplicationRecord
 
   def satellite_count
     satellites.count
+  end
+
+  def launch_count
+    launches.count
   end
 end

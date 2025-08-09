@@ -19,8 +19,8 @@ module Api
       end
 
       def show
-        @organization = Organization.includes(:rockets, :satellites, :launch_sites, :astronauts).find(params[:id])
-        render json: { organization: @organization.as_json(include: [:rockets, :satellites, :launch_sites, :astronauts]) }
+        @organization = Organization.includes(rockets: :launches, satellites: :launches).find(params[:id])
+        render json: { organization: @organization.as_json(include: { rockets: { include: :launches }, satellites: { include: :launches } }) }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Organization not found' }, status: :not_found
       end

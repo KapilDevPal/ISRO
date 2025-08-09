@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_09_200140) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -117,6 +117,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_200140) do
     t.index ["satellite_id"], name: "index_mission_satellites_on_satellite_id"
     t.index ["space_mission_id", "satellite_id"], name: "index_mission_satellites_unique", unique: true
     t.index ["space_mission_id"], name: "index_mission_satellites_on_space_mission_id"
+  end
+
+  create_table "missions", force: :cascade do |t|
+    t.string "name"
+    t.string "mission_type"
+    t.text "objective"
+    t.bigint "rocket_id", null: false
+    t.bigint "satellite_id", null: false
+    t.bigint "organization_id", null: false
+    t.datetime "launch_date"
+    t.integer "mission_duration"
+    t.string "status"
+    t.string "outcome"
+    t.decimal "budget"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_missions_on_organization_id"
+    t.index ["rocket_id"], name: "index_missions_on_rocket_id"
+    t.index ["satellite_id"], name: "index_missions_on_satellite_id"
   end
 
   create_table "news", force: :cascade do |t|
@@ -262,6 +281,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_200140) do
   add_foreign_key "mission_rockets", "space_missions"
   add_foreign_key "mission_satellites", "satellites"
   add_foreign_key "mission_satellites", "space_missions"
+  add_foreign_key "missions", "organizations"
+  add_foreign_key "missions", "rockets"
+  add_foreign_key "missions", "satellites"
   add_foreign_key "rockets", "organizations"
   add_foreign_key "satellites", "organizations"
   add_foreign_key "space_event_organizations", "organizations"

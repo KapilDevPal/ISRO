@@ -1,0 +1,10 @@
+<div class="max-w-2xl mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Edit Organization</h1>
+    <%= link_to "Back to Organizations", admin_organizations_path, class: "text-blue-600 hover:text-blue-800" %>
+  </div>
+
+  <div class="bg-white shadow-md rounded-lg p-6">
+    <%= render 'form', organization: @organization %>
+  </div>
+</div>

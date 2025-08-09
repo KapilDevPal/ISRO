@@ -1,0 +1,2 @@
+module Admin::LaunchesHelper
+end

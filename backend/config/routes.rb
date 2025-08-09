@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
+  devise_for :admin_users
   devise_for :users
   
   namespace :admin do
     get 'dashboard', to: 'dashboard#index'
+    resources :organizations
+    resources :rockets
+    resources :launches
+    resources :satellites
+    resources :news, only: [:index]
   end
   
   namespace :api do
