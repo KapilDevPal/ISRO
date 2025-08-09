@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Space Explorer Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { background: #333; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .stat-number { font-size: 2em; font-weight: bold; color: #007bff; }
+    .stat-label { color: #666; margin-top: 5px; }
+    .section { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .section h2 { margin-top: 0; color: #333; }
+    .model-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+    .model-link { display: block; padding: 10px; background: #007bff; color: white; text-decoration: none; border-radius: 3px; text-align: center; }
+    .model-link:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 Space Explorer Admin Dashboard</h1>
+      <p>Manage your space exploration data</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:organizations] %></div>
+        <div class="stat-label">Organizations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:rockets] %></div>
+        <div class="stat-label">Rockets</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:satellites] %></div>
+        <div class="stat-label">Satellites</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:launches] %></div>
+        <div class="stat-label">Launches</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:news] %></div>
+        <div class="stat-label">News Articles</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:space_probes] %></div>
+        <div class="stat-label">Space Probes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:launch_sites] %></div>
+        <div class="stat-label">Launch Sites</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:space_events] %></div>
+        <div class="stat-label">Space Events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:space_missions] %></div>
+        <div class="stat-label">Space Missions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= @stats[:astronauts] %></div>
+        <div class="stat-label">Astronauts</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📊 Data Management</h2>
+      <p>Use the Rails console or database tools to manage your data:</p>
+      <code>rails console</code>
+    </div>
+
+    <div class="section">
+      <h2>🔗 API Endpoints</h2>
+      <p>Your API is available at:</p>
+      <ul>
+        <li><code>GET /api/v1/dashboard</code> - Dashboard statistics</li>
+        <li><code>GET /api/v1/organizations</code> - List organizations</li>
+        <li><code>GET /api/v1/rockets</code> - List rockets</li>
+        <li><code>GET /api/v1/satellites</code> - List satellites</li>
+        <li><code>GET /api/v1/launches</code> - List launches</li>
+        <li><code>GET /api/v1/news</code> - List news articles</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>📝 Quick Actions</h2>
+      <div class="model-links">
+        <a href="/api/v1/organizations" class="model-link">View Organizations</a>
+        <a href="/api/v1/rockets" class="model-link">View Rockets</a>
+        <a href="/api/v1/satellites" class="model-link">View Satellites</a>
+        <a href="/api/v1/launches" class="model-link">View Launches</a>
+        <a href="/api/v1/news" class="model-link">View News</a>
+        <a href="/api/v1/space_probes" class="model-link">View Space Probes</a>
+        <a href="/api/v1/launch_sites" class="model-link">View Launch Sites</a>
+        <a href="/api/v1/space_events" class="model-link">View Space Events</a>
+        <a href="/api/v1/space_missions" class="model-link">View Space Missions</a>
+        <a href="/api/v1/astronauts" class="model-link">View Astronauts</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 

@@ -1,18 +1,27 @@
 Rails.application.routes.draw do
+  devise_for :users
+  
+  namespace :admin do
+    get 'dashboard', to: 'dashboard#index'
+  end
+  
   namespace :api do
     namespace :v1 do
-      get "dashboard/index"
+      get 'dashboard', to: 'dashboard#index'
+      
       resources :organizations, only: [:index, :show]
       resources :rockets, only: [:index, :show]
       resources :satellites, only: [:index, :show]
       resources :launches, only: [:index, :show]
-      resources :news, only: [:index, :show]
+      resources :news, only: [:index]
       
-      # Additional endpoints
-      get 'launches/upcoming', to: 'launches#upcoming'
-      get 'launches/past', to: 'launches#past'
-      get 'news/featured', to: 'news#featured'
-      get 'dashboard', to: 'dashboard#index'
+      # New models
+      resources :space_probes, only: [:index, :show]
+      resources :launch_sites, only: [:index, :show]
+      resources :space_events, only: [:index, :show]
+      resources :space_missions, only: [:index, :show]
+      resources :astronauts, only: [:index, :show]
+      resources :space_statistics, only: [:index, :show]
     end
   end
 

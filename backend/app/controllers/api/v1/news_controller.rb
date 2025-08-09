@@ -2,43 +2,17 @@ module Api
   module V1
     class NewsController < BaseController
       def index
-        @news = News.all
-        
-        # Apply filters
-        @news = @news.by_category(params[:category]) if params[:category].present?
-        @news = @news.by_source(params[:source]) if params[:source].present?
-        @news = @news.featured if params[:featured] == 'true'
-        @news = @news.recent if params[:recent] == 'true'
-        
-        # Apply search
-        if params[:search].present?
-          @news = @news.where("title ILIKE ? OR summary ILIKE ?", 
-                             "%#{params[:search]}%", "%#{params[:search]}%")
-        end
-        
-        # Date range filter
-        if params[:published_from].present?
-          @news = @news.where('published_at >= ?', DateTime.parse(params[:published_from]))
-        end
-        if params[:published_to].present?
-          @news = @news.where('published_at <= ?', DateTime.parse(params[:published_to]))
-        end
-        
-        # Sorting
-        sort_by = params[:sort_by] || 'published_at'
-        sort_order = params[:sort_order] || 'desc'
-        @news = @news.order(sort_by => sort_order)
-        
-        # Pagination
-        @news = @news.page(@page).per(@per_page)
+        @news = News.order(published_at: :desc)
+                   .page(params[:page])
+                   .per(params[:per_page] || 12)
         
         render json: {
-          news: @news.as_json(methods: [:published_date, :time_ago]),
+          news: @news.as_json,
           pagination: {
             current_page: @news.current_page,
             total_pages: @news.total_pages,
             total_count: @news.total_count,
-            per_page: @per_page
+            per_page: @news.limit_value
           }
         }
       end

@@ -2,51 +2,27 @@ module Api
   module V1
     class OrganizationsController < BaseController
       def index
-        @organizations = Organization.all
-        
-        # Apply filters
-        @organizations = @organizations.by_country(params[:country]) if params[:country].present?
-        @organizations = @organizations.by_type(params[:type]) if params[:type].present?
-        @organizations = @organizations.active if params[:status] == 'active'
-        
-        # Apply search
-        if params[:search].present?
-          @organizations = @organizations.where("name ILIKE ? OR description ILIKE ?", 
-                                               "%#{params[:search]}%", "%#{params[:search]}%")
-        end
-        
-        # Pagination
-        @organizations = @organizations.page(@page).per(@per_page)
+        @organizations = Organization.includes(:rockets, :satellites)
+                                   .order(created_at: :desc)
+                                   .page(params[:page])
+                                   .per(params[:per_page] || 12)
         
         render json: {
-          organizations: @organizations.as_json(include: { 
-            rockets: { only: [:id, :name, :status] },
-            satellites: { only: [:id, :name, :status] }
-          }),
+          organizations: @organizations.as_json(include: [:rockets, :satellites]),
           pagination: {
             current_page: @organizations.current_page,
             total_pages: @organizations.total_pages,
             total_count: @organizations.total_count,
-            per_page: @per_page
+            per_page: @organizations.limit_value
           }
         }
       end
 
       def show
-        @organization = Organization.find(params[:id])
-        
-        render json: @organization.as_json(include: {
-          rockets: { 
-            only: [:id, :name, :mass, :payload_capacity, :height, :diameter, :stages, :status, :first_flight],
-            methods: [:launch_count, :success_rate]
-          },
-          satellites: {
-            only: [:id, :name, :mass, :height, :width, :depth, :purpose, :launch_date, :orbit_type, :status],
-            methods: [:launch_count, :age_in_days]
-          }
-        })
+        @organization = Organization.includes(:rockets, :satellites, :launch_sites, :astronauts).find(params[:id])
+        render json: { organization: @organization.as_json(include: [:rockets, :satellites, :launch_sites, :astronauts]) }
       rescue ActiveRecord::RecordNotFound
-        render_not_found
+        render json: { error: 'Organization not found' }, status: :not_found
       end
     end
   end
