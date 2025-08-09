@@ -14373,3 +14373,468 @@ Processing by Api::V1::RocketsController#show as */*
 Completed 200 OK in 37ms (Views: 3.7ms | ActiveRecord: 3.9ms (3 queries, 0 cached) | GC: 0.0ms)
 
 
+Started GET "/api/v1/dashboard" for ::1 at 2025-08-10 03:15:49 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Backend'*/[0m
+Processing by Api::V1::DashboardController#index as */*
+  [1m[36mOrganization Count (60.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "organizations" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:7:in `index'
+  [1m[36mRocket Count (3.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "rockets" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:8:in `index'
+  [1m[36mSatellite Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "satellites" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:9:in `index'
+  [1m[36mLaunch Count (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:10:in `index'
+  [1m[36mLaunch Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE (launch_date > '2025-08-09 21:45:49.948703') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:11:in `index'
+  [1m[36mNews Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "news" WHERE (published_at >= '2025-08-02 21:45:49.968766') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:12:in `index'
+  [1m[36mLaunch Load (1.1ms)[0m  [1m[34mSELECT "launches".* FROM "launches" WHERE (launch_date > '2025-08-09 21:45:49.979165') ORDER BY "launches"."launch_date" ASC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (1.0ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 8 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (0.7ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (0.6ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 7 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (0.6ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mNews Load (0.5ms)[0m  [1m[34mSELECT "news".* FROM "news" WHERE (published_at >= '2025-08-02 21:45:50.078753') ORDER BY "news"."published_at" DESC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:17:in `index'
+  [1m[36mRocket Load (0.7ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mOrganization Load (0.7ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mSatellite Load (0.6ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.52ms)
+Completed 200 OK in 406ms (Views: 2.7ms | ActiveRecord: 131.7ms (32 queries, 11 cached) | GC: 108.7ms)
+
+
+Started GET "/api/v1/dashboard" for ::1 at 2025-08-10 03:18:40 +0530
+Processing by Api::V1::DashboardController#index as */*
+  [1m[36mOrganization Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "organizations" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:7:in `index'
+  [1m[36mRocket Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "rockets" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:8:in `index'
+  [1m[36mSatellite Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "satellites" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:9:in `index'
+  [1m[36mLaunch Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:10:in `index'
+  [1m[36mLaunch Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE (launch_date > '2025-08-09 21:48:40.302068') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:11:in `index'
+  [1m[36mNews Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "news" WHERE (published_at >= '2025-08-02 21:48:40.305411') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:12:in `index'
+  [1m[36mLaunch Load (1.0ms)[0m  [1m[34mSELECT "launches".* FROM "launches" WHERE (launch_date > '2025-08-09 21:48:40.308971') ORDER BY "launches"."launch_date" ASC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (0.4ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 8 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (0.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (0.5ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 7 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (0.7ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mNews Load (0.7ms)[0m  [1m[34mSELECT "news".* FROM "news" WHERE (published_at >= '2025-08-02 21:48:40.325981') ORDER BY "news"."published_at" DESC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:17:in `index'
+  [1m[36mRocket Load (0.4ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mOrganization Load (0.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mSatellite Load (0.4ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.53ms)
+Completed 200 OK in 87ms (Views: 4.5ms | ActiveRecord: 10.3ms (32 queries, 11 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/dashboard" for ::1 at 2025-08-10 03:18:40 +0530
+Processing by Api::V1::DashboardController#index as */*
+  [1m[36mOrganization Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "organizations" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:7:in `index'
+  [1m[36mRocket Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "rockets" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:8:in `index'
+  [1m[36mSatellite Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "satellites" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:9:in `index'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:10:in `index'
+  [1m[36mLaunch Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE (launch_date > '2025-08-09 21:48:40.408412') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:11:in `index'
+  [1m[36mNews Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "news" WHERE (published_at >= '2025-08-02 21:48:40.410672') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:12:in `index'
+  [1m[36mLaunch Load (0.5ms)[0m  [1m[34mSELECT "launches".* FROM "launches" WHERE (launch_date > '2025-08-09 21:48:40.412862') ORDER BY "launches"."launch_date" ASC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (0.4ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 8 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (0.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (0.9ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 7 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (1.2ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mNews Load (0.6ms)[0m  [1m[34mSELECT "news".* FROM "news" WHERE (published_at >= '2025-08-02 21:48:40.467252') ORDER BY "news"."published_at" DESC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:17:in `index'
+  [1m[36mRocket Load (1.1ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mOrganization Load (1.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mSatellite Load (0.8ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (1.18ms)
+Completed 200 OK in 138ms (Views: 2.0ms | ActiveRecord: 13.3ms (32 queries, 11 cached) | GC: 37.2ms)
+
+
+Started GET "/api/v1/launches" for ::1 at 2025-08-10 03:18:40 +0530
+Processing by Api::V1::LaunchesController#index as */*
+  [1m[36mLaunch Load (0.8ms)[0m  [1m[34mSELECT "launches".* FROM "launches" ORDER BY "launches"."launch_date" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='launches'*/[0m
+  ↳ app/controllers/api/v1/launches_controller.rb:11:in `index'
+  [1m[36mRocket Load (1.5ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" IN (7, 8, 10, 11, 9) /*action='index',application='Backend',controller='launches'*/[0m
+  ↳ app/controllers/api/v1/launches_controller.rb:11:in `index'
+  [1m[36mLaunchSatellite Load (0.7ms)[0m  [1m[34mSELECT "launch_satellites".* FROM "launch_satellites" WHERE "launch_satellites"."launch_id" IN (8, 7, 9, 12, 11, 10) /*action='index',application='Backend',controller='launches'*/[0m
+  ↳ app/controllers/api/v1/launches_controller.rb:11:in `index'
+  [1m[36mSatellite Load (0.8ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."id" IN (7, 10, 8, 11) /*action='index',application='Backend',controller='launches'*/[0m
+  ↳ app/controllers/api/v1/launches_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.4ms)
+Completed 200 OK in 44ms (Views: 1.1ms | ActiveRecord: 9.8ms (4 queries, 0 cached) | GC: 1.4ms)
+
+
+Started GET "/api/v1/rockets" for ::1 at 2025-08-10 03:18:40 +0530
+Processing by Api::V1::RocketsController#index as */*
+  [1m[36mRocket Load (0.7ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" ORDER BY "rockets"."created_at" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:11:in `index'
+  [1m[36mOrganization Load (0.8ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" IN (16, 12, 10, 9, 11) /*action='index',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.28ms)
+Completed 200 OK in 11ms (Views: 1.0ms | ActiveRecord: 1.5ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/organizations" for ::1 at 2025-08-10 03:18:40 +0530
+Processing by Api::V1::OrganizationsController#index as */*
+  [1m[36mOrganization Load (0.7ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" ORDER BY "organizations"."created_at" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='organizations'*/[0m
+  ↳ app/controllers/api/v1/organizations_controller.rb:11:in `index'
+  [1m[36mRocket Load (0.6ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."organization_id" IN (16, 15, 14, 13, 12, 11, 10, 9) /*action='index',application='Backend',controller='organizations'*/[0m
+  ↳ app/controllers/api/v1/organizations_controller.rb:11:in `index'
+  [1m[36mSatellite Load (0.7ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."organization_id" IN (16, 15, 14, 13, 12, 11, 10, 9) /*action='index',application='Backend',controller='organizations'*/[0m
+  ↳ app/controllers/api/v1/organizations_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.54ms)
+Completed 200 OK in 20ms (Views: 1.7ms | ActiveRecord: 2.0ms (3 queries, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/api/v1/rockets/11" for ::1 at 2025-08-10 03:19:52 +0530
+Processing by Api::V1::RocketsController#show as */*
+  Parameters: {"id"=>"11"}
+  [1m[36mRocket Load (1.3ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 11 LIMIT 1 /*action='show',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:22:in `show'
+  [1m[36mOrganization Load (0.9ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 12 /*action='show',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:22:in `show'
+  [1m[36mLaunch Load (2.9ms)[0m  [1m[34mSELECT "launches".* FROM "launches" WHERE "launches"."rocket_id" = 11 /*action='show',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:22:in `show'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (2.03ms)
+Completed 200 OK in 59ms (Views: 6.0ms | ActiveRecord: 4.8ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/satellites" for ::1 at 2025-08-10 03:21:01 +0530
+Processing by Api::V1::SatellitesController#index as */*
+  [1m[36mSatellite Load (1.2ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" ORDER BY "satellites"."created_at" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:11:in `index'
+  [1m[36mOrganization Load (1.5ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" IN (12, 9, 10, 11) /*action='index',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.8ms)
+Completed 200 OK in 34ms (Views: 3.8ms | ActiveRecord: 2.7ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/satellites" for ::1 at 2025-08-10 03:21:01 +0530
+Processing by Api::V1::SatellitesController#index as */*
+  [1m[36mSatellite Load (1.5ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" ORDER BY "satellites"."created_at" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:11:in `index'
+  [1m[36mOrganization Load (1.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" IN (12, 9, 10, 11) /*action='index',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.76ms)
+Completed 200 OK in 31ms (Views: 3.3ms | ActiveRecord: 2.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/satellites" for ::1 at 2025-08-10 03:21:16 +0530
+Processing by Api::V1::SatellitesController#index as */*
+  [1m[36mSatellite Load (2.1ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" ORDER BY "satellites"."created_at" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:11:in `index'
+  [1m[36mOrganization Load (2.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" IN (12, 9, 10, 11) /*action='index',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (2.04ms)
+Completed 200 OK in 35ms (Views: 4.9ms | ActiveRecord: 3.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/dashboard" for ::1 at 2025-08-10 03:21:28 +0530
+Processing by Api::V1::DashboardController#index as */*
+  [1m[36mOrganization Count (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "organizations" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:7:in `index'
+  [1m[36mRocket Count (1.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "rockets" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:8:in `index'
+  [1m[36mSatellite Count (3.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "satellites" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:9:in `index'
+  [1m[36mLaunch Count (4.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:10:in `index'
+  [1m[36mLaunch Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE (launch_date > '2025-08-09 21:51:28.975712') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:11:in `index'
+  [1m[36mNews Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "news" WHERE (published_at >= '2025-08-02 21:51:28.983031') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:12:in `index'
+  [1m[36mLaunch Load (1.8ms)[0m  [1m[34mSELECT "launches".* FROM "launches" WHERE (launch_date > '2025-08-09 21:51:28.990564') ORDER BY "launches"."launch_date" ASC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (0.8ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 8 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (2.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (1.5ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 7 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (1.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mNews Load (1.5ms)[0m  [1m[34mSELECT "news".* FROM "news" WHERE (published_at >= '2025-08-02 21:51:29.041569') ORDER BY "news"."published_at" DESC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:17:in `index'
+  [1m[36mRocket Load (0.9ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mOrganization Load (1.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mSatellite Load (1.2ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (5.22ms)
+Completed 200 OK in 349ms (Views: 7.6ms | ActiveRecord: 32.8ms (32 queries, 11 cached) | GC: 58.4ms)
+
+
+Started GET "/api/v1/dashboard" for ::1 at 2025-08-10 03:21:29 +0530
+Processing by Api::V1::DashboardController#index as */*
+  [1m[36mOrganization Count (3.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "organizations" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:7:in `index'
+  [1m[36mRocket Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "rockets" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:8:in `index'
+  [1m[36mSatellite Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "satellites" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:9:in `index'
+  [1m[36mLaunch Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:10:in `index'
+  [1m[36mLaunch Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE (launch_date > '2025-08-09 21:51:29.374680') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:11:in `index'
+  [1m[36mNews Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "news" WHERE (published_at >= '2025-08-02 21:51:29.385282') /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:12:in `index'
+  [1m[36mLaunch Load (2.2ms)[0m  [1m[34mSELECT "launches".* FROM "launches" WHERE (launch_date > '2025-08-09 21:51:29.398313') ORDER BY "launches"."launch_date" ASC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (1.0ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 8 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (3.0ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mRocket Load (1.2ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."id" = 7 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mOrganization Load (1.5ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:14:in `index'
+  [1m[36mNews Load (0.8ms)[0m  [1m[34mSELECT "news".* FROM "news" WHERE (published_at >= '2025-08-02 21:51:29.454839') ORDER BY "news"."published_at" DESC LIMIT 5 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:17:in `index'
+  [1m[36mRocket Load (1.1ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" WHERE "rockets"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 7[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (3.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (7.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 9[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mOrganization Load (3.7ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mLaunch Count (15.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:21:in `launch_count'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:25:in `success_rate'
+  [1m[36mLaunch Count (7.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10 AND "launches"."status" = 'success' /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/models/rocket.rb:26:in `success_rate'
+  [1m[36mCACHE Launch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "launches" WHERE "launches"."rocket_id" = 10[0m
+  ↳ app/models/rocket.rb:27:in `success_rate'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:18:in `index'
+  [1m[36mSatellite Load (3.1ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."status" = 'active' LIMIT 3 /*action='index',application='Backend',controller='dashboard'*/[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 9 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.3ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+  [1m[36mCACHE Organization Load (0.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 11 LIMIT 1[0m
+  ↳ app/controllers/api/v1/dashboard_controller.rb:21:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (2.83ms)
+Completed 200 OK in 509ms (Views: 5.8ms | ActiveRecord: 61.8ms (32 queries, 11 cached) | GC: 7.9ms)
+
+
+Started GET "/api/v1/satellites/8" for ::1 at 2025-08-10 03:21:46 +0530
+Processing by Api::V1::SatellitesController#show as */*
+  Parameters: {"id"=>"8"}
+  [1m[36mSatellite Load (1.0ms)[0m  [1m[34mSELECT "satellites".* FROM "satellites" WHERE "satellites"."id" = 8 LIMIT 1 /*action='show',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:22:in `show'
+  [1m[36mOrganization Load (3.4ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" = 10 /*action='show',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:22:in `show'
+  [1m[36mLaunchSatellite Load (0.8ms)[0m  [1m[34mSELECT "launch_satellites".* FROM "launch_satellites" WHERE "launch_satellites"."satellite_id" = 8 /*action='show',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:22:in `show'
+  [1m[36mLaunch Load (0.8ms)[0m  [1m[34mSELECT "launches".* FROM "launches" WHERE "launches"."id" = 11 /*action='show',application='Backend',controller='satellites'*/[0m
+  ↳ app/controllers/api/v1/satellites_controller.rb:22:in `show'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.3ms)
+Completed 200 OK in 71ms (Views: 1.8ms | ActiveRecord: 5.9ms (4 queries, 0 cached) | GC: 0.4ms)
+
+
+Started GET "/api/v1/rockets" for ::1 at 2025-08-10 03:21:55 +0530
+Processing by Api::V1::RocketsController#index as */*
+  [1m[36mRocket Load (2.5ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" ORDER BY "rockets"."created_at" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:11:in `index'
+  [1m[36mOrganization Load (0.8ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" IN (16, 12, 10, 9, 11) /*action='index',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (1.54ms)
+Completed 200 OK in 38ms (Views: 4.0ms | ActiveRecord: 3.2ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/rockets" for ::1 at 2025-08-10 03:21:55 +0530
+Processing by Api::V1::RocketsController#index as */*
+  [1m[36mRocket Load (1.1ms)[0m  [1m[34mSELECT "rockets".* FROM "rockets" ORDER BY "rockets"."created_at" DESC LIMIT 12 OFFSET 0 /*action='index',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:11:in `index'
+  [1m[36mOrganization Load (1.1ms)[0m  [1m[34mSELECT "organizations".* FROM "organizations" WHERE "organizations"."id" IN (16, 12, 10, 9, 11) /*action='index',application='Backend',controller='rockets'*/[0m
+  ↳ app/controllers/api/v1/rockets_controller.rb:11:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.65ms)
+Completed 200 OK in 28ms (Views: 2.7ms | ActiveRecord: 2.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
