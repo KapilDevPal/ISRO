@@ -1,0 +1,151 @@
+service: space-explorer-api
+image: space-explorer-api
+
+# Deploy to these servers
+servers:
+  web:
+    hosts:
+      - your-vps-ip
+    labels:
+      traefik.http.routers.space-explorer-api.rule: Host(`api.space-explorer.app`)
+
+# Credentials
+registry:
+  username:
+    - KAMAL_REGISTRY_USERNAME
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Environment variables
+env:
+  secret:
+    - DATABASE_URL
+    - REDIS_URL
+    - RAILS_MASTER_KEY
+    - NASA_API_KEY
+    - SPACEX_API_KEY
+
+# Health check
+healthcheck:
+  path: /up
+  port: 3000
+  max_attempts: 10
+  interval: 5s
+
+# Access logs
+access_logs:
+  - /var/log/nginx/access.log
+
+# Rolling updates
+rolling:
+  max_unavailable: 0
+  max_surge: 1
+
+# Resource limits
+resources:
+  cpu: 0.5
+  memory: 512Mi
+
+# Volumes for persistent data
+volumes:
+  - "/var/lib/postgresql:/var/lib/postgresql"
+  - "/var/lib/redis:/var/lib/redis"
+
+# Environment-specific configurations
+environments:
+  production:
+    env:
+      RAILS_ENV: production
+      NODE_ENV: production
+    servers:
+      web:
+        hosts:
+          - your-production-vps-ip
+        labels:
+          traefik.http.routers.space-explorer-api.rule: Host(`api.space-explorer.app`)
+          traefik.http.routers.space-explorer-api.tls: true
+          traefik.http.routers.space-explorer-api.tls.certresolver: letsencrypt
+
+  staging:
+    env:
+      RAILS_ENV: staging
+      NODE_ENV: staging
+    servers:
+      web:
+        hosts:
+          - your-staging-vps-ip
+        labels:
+          traefik.http.routers.space-explorer-api-staging.rule: Host(`staging-api.space-explorer.app`)
+
+# Database configuration
+database:
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+
+# Redis configuration
+redis:
+  url: redis://localhost:6379/0
+
+# Background jobs
+jobs:
+  sidekiq:
+    concurrency: 5
+    queues:
+      - default
+      - mailers
+      - active_storage
+
+# Monitoring
+monitoring:
+  prometheus:
+    enabled: true
+    port: 9090
+  grafana:
+    enabled: true
+    port: 3001
+
+# SSL/TLS configuration
+ssl:
+  provider: letsencrypt
+  email: admin@space-explorer.app
+  domains:
+    - api.space-explorer.app
+
+# Backup configuration
+backup:
+  database:
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    retention: 30  # Keep 30 days
+  files:
+    schedule: "0 3 * * *"  # Daily at 3 AM
+    retention: 7  # Keep 7 days
+
+# Logging
+logging:
+  level: info
+  format: json
+  output:
+    - stdout
+    - /var/log/space-explorer-api/app.log
+
+# Security
+security:
+  headers:
+    X-Frame-Options: DENY
+    X-Content-Type-Options: nosniff
+    X-XSS-Protection: "1; mode=block"
+    Strict-Transport-Security: "max-age=31536000; includeSubDomains"
+  cors:
+    origins:
+      - https://space-explorer.app
+      - https://www.space-explorer.app
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+    headers:
+      - Content-Type
+      - Authorization 
