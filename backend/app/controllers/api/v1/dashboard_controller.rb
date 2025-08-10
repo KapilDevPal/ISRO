@@ -208,36 +208,214 @@ module Api
       end
 
       def organization_performance
-        # Get comprehensive organization performance metrics
-        organizations = Organization.joins(rockets: :launches)
-                                  .group('organizations.id, organizations.name')
-                                  .select('organizations.id, organizations.name,
-                                          COUNT(DISTINCT rockets.id) as rocket_count,
-                                          COUNT(DISTINCT launches.id) as launch_count,
-                                          COUNT(CASE WHEN launches.status = \'success\' THEN 1 END) as successful_launches,
-                                          COUNT(CASE WHEN launches.status = \'failed\' THEN 1 END) as failed_launches,
-                                          AVG(rockets.payload_capacity) as avg_payload_capacity')
-                                  .having('COUNT(launches.id) > 0')
-                                  .order('launch_count DESC')
-
-        data = organizations.map do |org|
-          total = org.launch_count
-          successful = org.successful_launches
-          failed = org.failed_launches
+        # Get organization performance metrics
+        data = Organization.all.map do |org|
+          launch_count = org.launches.count
+          successful_launches = org.launches.where(status: 'success').count
+          success_rate = launch_count > 0 ? (successful_launches.to_f / launch_count * 100).round(1) : 0
           
           {
             id: org.id,
             name: org.name,
-            rocket_count: org.rocket_count,
-            launch_count: total,
-            successful_launches: successful,
-            failed_launches: failed,
-            success_rate: total > 0 ? (successful.to_f / total * 100).round(1) : 0,
-            avg_payload_capacity: org.avg_payload_capacity&.round(0) || 0
+            country: org.country,
+            rocket_count: org.rockets.count,
+            satellite_count: org.satellites.count,
+            launch_count: launch_count,
+            successful_launches: successful_launches,
+            success_rate: success_rate
+          }
+        end.sort_by { |org| -org[:launch_count] }.first(15)
+
+        render json: { data: data }
+      end
+
+      def mission_progress_visualization
+        # Get mission progress data for visualization
+        missions = SpaceMission.includes(:mission_milestones, :mission_objectives, :crew_modules)
+                              .where.not(mission_milestones: { id: nil })
+                              .order(:start_date)
+                              .limit(30)
+
+        data = missions.map do |mission|
+          {
+            id: mission.id,
+            name: mission.name,
+            status: mission.status,
+            start_date: mission.start_date,
+            end_date: mission.end_date,
+            milestone_progress: mission.milestone_progress,
+            total_milestones: mission.mission_milestones.count,
+            completed_milestones: mission.mission_milestones.completed.count,
+            total_objectives: mission.mission_objectives.count,
+            primary_objectives: mission.mission_objectives.primary.count,
+            crew_assigned: mission.crew_modules.assigned.count,
+            total_crew_positions: mission.crew_modules.count
           }
         end
 
         render json: { data: data }
+      end
+
+      def mission_timeline_visualization
+        # Get mission timeline data for visualization
+        missions = SpaceMission.includes(:organizations, :astronauts, :mission_milestones)
+                              .order(:start_date)
+                              .limit(50)
+
+        data = missions.map do |mission|
+          {
+            id: mission.id,
+            name: mission.name,
+            status: mission.status,
+            start_date: mission.start_date,
+            end_date: mission.end_date,
+            organization_names: mission.organizations.pluck(:name),
+            astronaut_count: mission.astronauts.count,
+            milestone_count: mission.mission_milestones.count,
+            completed_milestones: mission.mission_milestones.completed.count,
+            duration_days: mission.duration_days
+          }
+        end
+
+        render json: { data: data }
+      end
+
+      def orbit_distribution
+        # Get satellite orbit distribution data
+        orbit_stats = Satellite.group(:orbit_type)
+                              .count
+                              .sort_by { |_, count| -count }
+
+        # Categorize orbits into LEO, MEO, GEO, and others
+        categorized_orbits = {
+          'LEO' => 0,
+          'MEO' => 0,
+          'GEO' => 0,
+          'Other' => 0
+        }
+
+        orbit_stats.each do |orbit_type, count|
+          case orbit_type&.downcase
+          when /low earth|leo/
+            categorized_orbits['LEO'] += count
+          when /medium earth|meo/
+            categorized_orbits['MEO'] += count
+          when /geosynchronous|geostationary|geo/
+            categorized_orbits['GEO'] += count
+          else
+            categorized_orbits['Other'] += count
+          end
+        end
+
+        # Get detailed orbit breakdown
+        detailed_orbits = orbit_stats.map do |orbit_type, count|
+          {
+            orbit_type: orbit_type || 'Unknown',
+            count: count,
+            percentage: (count.to_f / Satellite.count * 100).round(1)
+          }
+        end
+
+        render json: {
+          categorized: categorized_orbits.map { |category, count| { category: category, count: count } },
+          detailed: detailed_orbits,
+          total_satellites: Satellite.count
+        }
+      end
+
+      def mission_family_tree
+        # Get all missions with their associations
+        missions = SpaceMission.includes(:organizations, :mission_rockets, :mission_satellites, :mission_milestones)
+                              .order(:start_date)
+                              .limit(50)
+        
+        data = missions.map do |mission|
+          # Find related missions by rocket
+          related_by_rocket = []
+          mission.mission_rockets.each do |mission_rocket|
+            rocket = mission_rocket.rocket
+            if rocket
+              related_missions = SpaceMission.joins(:mission_rockets)
+                                            .where(mission_rockets: { rocket: rocket })
+                                            .where.not(id: mission.id)
+                                            .limit(5)
+              related_by_rocket.concat(related_missions.map { |m| { id: m.id, name: m.name, relation: "Same Rocket: #{rocket.name}" } })
+            end
+          end
+          
+          # Find related missions by organization
+          related_by_org = []
+          mission.organizations.each do |org|
+            related_missions = SpaceMission.joins(:organizations)
+                                          .where(organizations: { id: org.id })
+                                          .where.not(id: mission.id)
+                                          .limit(5)
+            related_by_org.concat(related_missions.map { |m| { id: m.id, name: m.name, relation: "Same Agency: #{org.name}" } })
+          end
+          
+          # Find related missions by target (based on description keywords)
+          related_by_target = []
+          target_keywords = extract_target_keywords(mission.description)
+          if target_keywords.any?
+            related_missions = SpaceMission.where("description ILIKE ?", "%#{target_keywords.first}%")
+                                          .where.not(id: mission.id)
+                                          .limit(3)
+            related_by_target.concat(related_missions.map { |m| { id: m.id, name: m.name, relation: "Similar Target: #{target_keywords.first}" } })
+          end
+          
+          # Combine all related missions and remove duplicates
+          all_related = (related_by_rocket + related_by_org + related_by_target)
+                         .uniq { |m| m[:id] }
+                         .first(8) # Limit to 8 related missions
+          
+          {
+            id: mission.id,
+            name: mission.name,
+            description: mission.description,
+            status: mission.status,
+            start_date: mission.start_date,
+            end_date: mission.end_date,
+            organizations: mission.organizations.map { |org| { id: org.id, name: org.name, country: org.country } },
+            rockets: mission.mission_rockets.map { |mr| mr.rocket&.name }.compact,
+            satellites: mission.mission_satellites.map { |ms| ms.satellite&.name }.compact,
+            milestone_count: mission.mission_milestones.count,
+            completed_milestones: mission.mission_milestones.completed.count,
+            related_missions: all_related
+          }
+        end
+        
+        render json: { data: data }
+      end
+
+      private
+
+      def extract_target_keywords(description)
+        return [] unless description
+        
+        keywords = []
+        description.downcase!
+        
+        # Extract celestial body keywords
+        if description.include?('moon') || description.include?('lunar')
+          keywords << 'Moon'
+        end
+        if description.include?('mars') || description.include?('martian')
+          keywords << 'Mars'
+        end
+        if description.include?('earth') || description.include?('terrestrial')
+          keywords << 'Earth'
+        end
+        if description.include?('sun') || description.include?('solar')
+          keywords << 'Sun'
+        end
+        if description.include?('jupiter') || description.include?('jovian')
+          keywords << 'Jupiter'
+        end
+        if description.include?('saturn') || description.include?('saturnian')
+          keywords << 'Saturn'
+        end
+        
+        keywords
       end
     end
   end
