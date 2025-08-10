@@ -8,7 +8,10 @@ module Api
                          .per(params[:per_page] || 12)
         
         render json: {
-          launches: @launches.as_json(include: { rocket: { include: :organization }, satellites: { include: :organization } }),
+          launches: @launches.as_json(
+            methods: [:countdown_seconds, :is_upcoming, :is_past, :days_until_launch],
+            include: { rocket: { include: :organization }, satellites: { include: :organization } }
+          ),
           pagination: {
             current_page: @launches.current_page,
             total_pages: @launches.total_pages,
@@ -20,7 +23,12 @@ module Api
 
       def show
         @launch = Launch.includes(rocket: :organization, satellites: :organization).find(params[:id])
-        render json: { launch: @launch.as_json(include: { rocket: { include: :organization }, satellites: { include: :organization } }) }
+        render json: { 
+          launch: @launch.as_json(
+            methods: [:countdown_seconds, :is_upcoming, :is_past, :days_until_launch],
+            include: { rocket: { include: :organization }, satellites: { include: :organization } }
+          )
+        }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Launch not found' }, status: :not_found
       end

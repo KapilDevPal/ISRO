@@ -1,21 +1,28 @@
 # Clear existing data
 puts "Clearing existing data..."
+
+# Clear in proper order to avoid foreign key violations
+MissionFailure.destroy_all
+FutureMission.destroy_all
+MissionMilestone.destroy_all
+CrewModule.destroy_all
+MissionObjective.destroy_all
 AstronautMission.destroy_all
-MissionSatellite.destroy_all
-MissionRocket.destroy_all
 MissionOrganization.destroy_all
+MissionRocket.destroy_all
+MissionSatellite.destroy_all
 SpaceEventOrganization.destroy_all
-LaunchSatellite.destroy_all
-News.destroy_all
-Astronaut.destroy_all
 SpaceMission.destroy_all
+Astronaut.destroy_all
+SpaceStation.destroy_all
+SpaceProbe.destroy_all
 SpaceEvent.destroy_all
 LaunchSite.destroy_all
-SpaceProbe.destroy_all
-SpaceStatistic.destroy_all
+LaunchSatellite.destroy_all
 Launch.destroy_all
 Satellite.destroy_all
 Rocket.destroy_all
+News.destroy_all
 Organization.destroy_all
 
 # Create Organizations
@@ -77,6 +84,20 @@ organizations = [
     type: "Private",
     description: "Private aerospace manufacturer and spaceflight services company founded by Jeff Bezos.",
     founded_year: 2000
+  },
+  {
+    name: "OneWeb",
+    country: "United Kingdom",
+    type: "Private",
+    description: "Global communications company building a satellite internet constellation.",
+    founded_year: 2012
+  },
+  {
+    name: "DLR",
+    country: "Germany",
+    type: "Government",
+    description: "German Aerospace Center - Germany's space agency and research center for aeronautics and space.",
+    founded_year: 1969
   }
 ]
 
@@ -99,7 +120,7 @@ rockets = [
     payload_capacity: 22800,
     stages: 2,
     status: "active",
-    organization: Organization.find_by(name: "SpaceX")
+    organization_id: Organization.find_by(name: "SpaceX").id
   },
   {
     name: "Saturn V",
@@ -110,7 +131,7 @@ rockets = [
     payload_capacity: 140000,
     stages: 3,
     status: "retired",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "PSLV",
@@ -121,7 +142,7 @@ rockets = [
     payload_capacity: 3800,
     stages: 4,
     status: "active",
-    organization: Organization.find_by(name: "ISRO")
+    organization_id: Organization.find_by(name: "ISRO").id
   },
   {
     name: "GSLV",
@@ -132,7 +153,7 @@ rockets = [
     payload_capacity: 5000,
     stages: 3,
     status: "active",
-    organization: Organization.find_by(name: "ISRO")
+    organization_id: Organization.find_by(name: "ISRO").id
   },
   {
     name: "Ariane 5",
@@ -143,7 +164,7 @@ rockets = [
     payload_capacity: 21000,
     stages: 2,
     status: "active",
-    organization: Organization.find_by(name: "ESA")
+    organization_id: Organization.find_by(name: "ESA").id
   },
   {
     name: "New Shepard",
@@ -154,7 +175,7 @@ rockets = [
     payload_capacity: 1000,
     stages: 1,
     status: "active",
-    organization: Organization.find_by(name: "Blue Origin")
+    organization_id: Organization.find_by(name: "Blue Origin").id
   }
 ]
 
@@ -178,7 +199,7 @@ satellites = [
     orbit_type: "Low Earth Orbit",
     status: "active",
     launch_date: "1990-04-24",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Mangalyaan",
@@ -190,7 +211,7 @@ satellites = [
     orbit_type: "Mars Orbit",
     status: "active",
     launch_date: "2013-11-05",
-    organization: Organization.find_by(name: "ISRO")
+    organization_id: Organization.find_by(name: "ISRO").id
   },
   {
     name: "Starlink Satellite",
@@ -202,7 +223,7 @@ satellites = [
     orbit_type: "Low Earth Orbit",
     status: "active",
     launch_date: "2019-05-24",
-    organization: Organization.find_by(name: "SpaceX")
+    organization_id: Organization.find_by(name: "SpaceX").id
   },
   {
     name: "Chandrayaan-3",
@@ -214,7 +235,7 @@ satellites = [
     orbit_type: "Lunar Orbit",
     status: "active",
     launch_date: "2023-07-14",
-    organization: Organization.find_by(name: "ISRO")
+    organization_id: Organization.find_by(name: "ISRO").id
   },
   {
     name: "James Webb Space Telescope",
@@ -226,7 +247,7 @@ satellites = [
     orbit_type: "Lagrange Point L2",
     status: "active",
     launch_date: "2021-12-25",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Galileo Satellite",
@@ -238,7 +259,79 @@ satellites = [
     orbit_type: "Medium Earth Orbit",
     status: "active",
     launch_date: "2011-10-21",
-    organization: Organization.find_by(name: "ESA")
+    organization_id: Organization.find_by(name: "ESA").id
+  },
+  {
+    name: "GPS Satellite",
+    purpose: "Global Positioning System satellite for navigation and timing.",
+    mass: 1630,
+    height: 5.3,
+    width: 1.8,
+    depth: 1.8,
+    orbit_type: "Medium Earth Orbit",
+    status: "active",
+    launch_date: "2010-05-28",
+    organization_id: Organization.find_by(name: "NASA").id
+  },
+  {
+    name: "INSAT-3DR",
+    purpose: "Indian geostationary satellite for weather monitoring and communication.",
+    mass: 2250,
+    height: 2.4,
+    width: 1.6,
+    depth: 1.6,
+    orbit_type: "Geostationary Orbit",
+    status: "active",
+    launch_date: "2016-09-08",
+    organization_id: Organization.find_by(name: "ISRO").id
+  },
+  {
+    name: "Astra 2E",
+    purpose: "European communication satellite for broadcasting and broadband services.",
+    mass: 6000,
+    height: 7.0,
+    width: 2.4,
+    depth: 2.4,
+    orbit_type: "Geostationary Orbit",
+    status: "active",
+    launch_date: "2013-09-29",
+    organization_id: Organization.find_by(name: "ESA").id
+  },
+  {
+    name: "OneWeb Satellite",
+    purpose: "Satellite internet constellation for global connectivity.",
+    mass: 150,
+    height: 0.3,
+    width: 1.0,
+    depth: 1.0,
+    orbit_type: "Low Earth Orbit",
+    status: "active",
+    launch_date: "2020-02-07",
+    organization_id: Organization.find_by(name: "OneWeb").id
+  },
+  {
+    name: "TerraSAR-X",
+    purpose: "German radar satellite for Earth observation and mapping.",
+    mass: 1230,
+    height: 4.9,
+    width: 2.4,
+    depth: 2.4,
+    orbit_type: "Low Earth Orbit",
+    status: "active",
+    launch_date: "2007-06-15",
+    organization_id: Organization.find_by(name: "DLR").id
+  },
+  {
+    name: "Sentinel-1A",
+    purpose: "European radar satellite for environmental monitoring and disaster management.",
+    mass: 2300,
+    height: 3.4,
+    width: 1.0,
+    depth: 1.0,
+    orbit_type: "Low Earth Orbit",
+    status: "active",
+    launch_date: "2014-04-03",
+    organization_id: Organization.find_by(name: "ESA").id
   }
 ]
 
@@ -360,7 +453,7 @@ probes = [
     launch_date: "1977-09-05",
     status: "active",
     discoveries: "First spacecraft to enter interstellar space. Discovered active volcanoes on Io, complex ring system of Saturn, and provided detailed images of Jupiter and Saturn.",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Voyager 2",
@@ -368,7 +461,7 @@ probes = [
     launch_date: "1977-08-20",
     status: "active",
     discoveries: "Only spacecraft to visit Uranus and Neptune. Discovered 10 new moons, 2 new rings, and provided detailed images of all four outer planets.",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Perseverance",
@@ -376,7 +469,7 @@ probes = [
     launch_date: "2020-07-30",
     status: "active",
     discoveries: "Collecting rock and soil samples for future return to Earth. Searching for signs of ancient microbial life and studying Mars' geology and climate.",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Curiosity",
@@ -384,7 +477,7 @@ probes = [
     launch_date: "2011-11-26",
     status: "active",
     discoveries: "Confirmed Mars had conditions suitable for microbial life in the past. Found organic molecules and seasonal methane variations.",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Parker Solar Probe",
@@ -392,7 +485,7 @@ probes = [
     launch_date: "2018-08-12",
     status: "active",
     discoveries: "Closest spacecraft to the Sun. Studying solar wind, coronal heating, and solar energetic particles.",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Juno",
@@ -400,7 +493,7 @@ probes = [
     launch_date: "2011-08-05",
     status: "active",
     discoveries: "Studying Jupiter's composition, gravity field, magnetic field, and polar magnetosphere. Revealed complex atmospheric dynamics.",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   }
 ]
 
@@ -420,7 +513,7 @@ launch_sites = [
     latitude: 28.5729,
     longitude: -80.6490,
     total_launches: 184,
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Cape Canaveral Space Force Station",
@@ -428,7 +521,7 @@ launch_sites = [
     latitude: 28.4889,
     longitude: -80.5778,
     total_launches: 156,
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Satish Dhawan Space Centre",
@@ -436,7 +529,7 @@ launch_sites = [
     latitude: 13.7199,
     longitude: 80.2304,
     total_launches: 89,
-    organization: Organization.find_by(name: "ISRO")
+    organization_id: Organization.find_by(name: "ISRO").id
   },
   {
     name: "Guiana Space Center",
@@ -444,7 +537,7 @@ launch_sites = [
     latitude: 5.2320,
     longitude: -52.7694,
     total_launches: 312,
-    organization: Organization.find_by(name: "ESA")
+    organization_id: Organization.find_by(name: "ESA").id
   },
   {
     name: "Baikonur Cosmodrome",
@@ -452,7 +545,7 @@ launch_sites = [
     latitude: 45.9646,
     longitude: 63.3052,
     total_launches: 1567,
-    organization: Organization.find_by(name: "Roscosmos")
+    organization_id: Organization.find_by(name: "Roscosmos").id
   },
   {
     name: "Jiuquan Satellite Launch Center",
@@ -460,7 +553,7 @@ launch_sites = [
     latitude: 40.9583,
     longitude: 100.2917,
     total_launches: 145,
-    organization: Organization.find_by(name: "CNSA")
+    organization_id: Organization.find_by(name: "CNSA").id
   },
   {
     name: "Tanegashima Space Center",
@@ -468,7 +561,7 @@ launch_sites = [
     latitude: 30.4000,
     longitude: 130.9700,
     total_launches: 67,
-    organization: Organization.find_by(name: "JAXA")
+    organization_id: Organization.find_by(name: "JAXA").id
   },
   {
     name: "SpaceX Launch Complex 40",
@@ -476,7 +569,7 @@ launch_sites = [
     latitude: 28.5619,
     longitude: -80.5772,
     total_launches: 234,
-    organization: Organization.find_by(name: "SpaceX")
+    organization_id: Organization.find_by(name: "SpaceX").id
   }
 ]
 
@@ -549,56 +642,225 @@ puts "Created #{SpaceEvent.count} space events"
 # Create Space Missions
 puts "Creating space missions..."
 
-missions = [
-  {
-    name: "Apollo Program",
-    objective: "Land humans on the Moon and return them safely to Earth",
-    start_date: "1961-05-25",
-    end_date: "1972-12-19",
-    status: "completed"
-  },
-  {
-    name: "Space Shuttle Program",
-    objective: "Develop reusable spacecraft for Earth orbit operations",
-    start_date: "1981-04-12",
-    end_date: "2011-07-21",
-    status: "completed"
-  },
-  {
-    name: "International Space Station",
-    objective: "Maintain a permanent human presence in space for research and international cooperation",
-    start_date: "1998-11-20",
-    end_date: nil,
-    status: "ongoing"
-  },
+space_missions = [
   {
     name: "Artemis Program",
-    objective: "Return humans to the Moon and establish sustainable lunar exploration",
-    start_date: "2017-12-11",
+    description: "NASA's program to return humans to the Moon and establish sustainable lunar exploration.",
+    status: "ongoing",
+    start_date: "2017-01-01",
     end_date: nil,
-    status: "ongoing"
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
-    name: "Mars Exploration Program",
-    objective: "Explore Mars and search for evidence of past or present life",
-    start_date: "1993-10-01",
-    end_date: nil,
-    status: "ongoing"
+    name: "Gaganyaan",
+    description: "India's first human spaceflight program to send astronauts to low Earth orbit.",
+    status: "planned",
+    start_date: "2024-01-01",
+    end_date: "2025-12-31",
+    organization_id: Organization.find_by(name: "ISRO").id
   },
   {
-    name: "Commercial Crew Program",
-    objective: "Develop commercial spacecraft to transport astronauts to the ISS",
-    start_date: "2010-04-15",
+    name: "Mars Sample Return",
+    description: "Joint mission to return samples from Mars to Earth for analysis.",
+    status: "planned",
+    start_date: "2026-01-01",
+    end_date: "2031-12-31",
+    organization_id: Organization.find_by(name: "NASA").id
+  },
+  {
+    name: "Starlink Constellation",
+    description: "SpaceX's satellite internet constellation providing global broadband coverage.",
+    status: "ongoing",
+    start_date: "2019-01-01",
     end_date: nil,
-    status: "ongoing"
+    organization_id: Organization.find_by(name: "SpaceX").id
   }
 ]
 
-missions.each do |mission_data|
-  SpaceMission.create!(mission_data)
+space_missions.each do |mission_data|
+  mission = SpaceMission.create!(
+    name: mission_data[:name],
+    description: mission_data[:description],
+    status: mission_data[:status],
+    start_date: mission_data[:start_date],
+    end_date: mission_data[:end_date],
+    organization_id: mission_data[:organization_id]
+  )
+  
+  # Add additional organizations if multiple
+  if mission_data[:name] == "Mars Sample Return"
+    MissionOrganization.create!(space_mission: mission, organization: Organization.find_by(name: "ESA"))
+  end
 end
 
 puts "Created #{SpaceMission.count} space missions"
+
+# Create Mission-Rocket associations
+puts "Creating mission-rocket associations..."
+
+MissionRocket.create!(
+  space_mission: SpaceMission.find_by(name: "Artemis Program"),
+  rocket: Rocket.find_by(name: "Saturn V")
+)
+
+MissionRocket.create!(
+  space_mission: SpaceMission.find_by(name: "Gaganyaan"),
+  rocket: Rocket.find_by(name: "GSLV")
+)
+
+MissionRocket.create!(
+  space_mission: SpaceMission.find_by(name: "Starlink Constellation"),
+  rocket: Rocket.find_by(name: "Falcon 9")
+)
+
+# Create Mission-Satellite associations
+puts "Creating mission-satellite associations..."
+
+MissionSatellite.create!(
+  space_mission: SpaceMission.find_by(name: "Starlink Constellation"),
+  satellite: Satellite.find_by(name: "Starlink Satellite")
+)
+
+MissionSatellite.create!(
+  space_mission: SpaceMission.find_by(name: "Starlink Constellation"),
+  satellite: Satellite.find_by(name: "OneWeb Satellite")
+)
+
+# Create Mission Milestones
+puts "Creating mission milestones..."
+
+mission_milestones = [
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Artemis I Launch",
+    description: "Uncrewed test flight of Orion spacecraft around the Moon",
+    event_date: "2022-11-16",
+    milestone_type: "launch",
+    status: "completed"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Artemis II Launch",
+    description: "Crewed test flight with astronauts around the Moon",
+    event_date: "2025-09-01",
+    milestone_type: "launch",
+    status: "planned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Artemis III Landing",
+    description: "First human landing on the Moon since 1972",
+    event_date: "2026-12-01",
+    milestone_type: "landing",
+    status: "planned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Gaganyaan"),
+    name: "Uncrewed Test Flight",
+    description: "Test flight without astronauts to validate systems",
+    event_date: "2024-12-01",
+    milestone_type: "launch",
+    status: "planned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Gaganyaan"),
+    name: "Crewed Mission",
+    description: "First Indian human spaceflight mission",
+    event_date: "2025-12-01",
+    milestone_type: "launch",
+    status: "planned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Starlink Constellation"),
+    name: "First Launch",
+    description: "Initial deployment of Starlink satellites",
+    event_date: "2019-05-24",
+    milestone_type: "deployment",
+    status: "completed"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Starlink Constellation"),
+    name: "Global Coverage",
+    description: "Achieve global internet coverage",
+    event_date: "2024-12-31",
+    milestone_type: "deployment",
+    status: "in_progress"
+  }
+]
+
+mission_milestones.each do |milestone_data|
+  MissionMilestone.create!(milestone_data)
+end
+
+puts "Created #{MissionMilestone.count} mission milestones"
+
+# Create Mission Objectives
+puts "Creating mission objectives..."
+
+mission_objectives = [
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Establish sustainable lunar exploration",
+    description: "Establish sustainable lunar exploration",
+    objective_type: "lunar_exploration",
+    color_code: "#6B7280",
+    priority: 1,
+    is_primary: true
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Test new technologies for Mars missions",
+    description: "Test new technologies for Mars missions",
+    objective_type: "technology_demonstration",
+    color_code: "#F59E0B",
+    priority: 2,
+    is_primary: false
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Gaganyaan"),
+    name: "Demonstrate human spaceflight capability",
+    description: "Demonstrate human spaceflight capability",
+    objective_type: "technology_demonstration",
+    color_code: "#F59E0B",
+    priority: 1,
+    is_primary: true
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Gaganyaan"),
+    name: "Conduct scientific experiments in space",
+    description: "Conduct scientific experiments in space",
+    objective_type: "scientific_research",
+    color_code: "#8B5CF6",
+    priority: 3,
+    is_primary: false
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Starlink Constellation"),
+    name: "Provide global internet access",
+    description: "Provide global internet access",
+    objective_type: "communication",
+    color_code: "#3B82F6",
+    priority: 1,
+    is_primary: true
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Starlink Constellation"),
+    name: "Generate revenue for Mars missions",
+    description: "Generate revenue for Mars missions",
+    objective_type: "commercial",
+    color_code: "#10B981",
+    priority: 2,
+    is_primary: false
+  }
+]
+
+mission_objectives.each do |objective_data|
+  MissionObjective.create!(objective_data)
+end
+
+puts "Created #{MissionObjective.count} mission objectives"
+
+
 
 # Create Astronauts
 puts "Creating astronauts..."
@@ -610,7 +872,7 @@ astronauts = [
     bio: "First human to walk on the Moon during Apollo 11 mission. Naval aviator, test pilot, and aerospace engineer.",
     image_url: "https://example.com/neil-armstrong.jpg",
     status: "deceased",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Buzz Aldrin",
@@ -618,7 +880,7 @@ astronauts = [
     bio: "Second human to walk on the Moon during Apollo 11 mission. Fighter pilot, engineer, and advocate for space exploration.",
     image_url: "https://example.com/buzz-aldrin.jpg",
     status: "retired",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Yuri Gagarin",
@@ -626,7 +888,7 @@ astronauts = [
     bio: "First human to journey into outer space aboard Vostok 1. Soviet Air Forces pilot and cosmonaut.",
     image_url: "https://example.com/yuri-gagarin.jpg",
     status: "deceased",
-    organization: Organization.find_by(name: "Roscosmos")
+    organization_id: Organization.find_by(name: "Roscosmos").id
   },
   {
     name: "Sally Ride",
@@ -634,7 +896,7 @@ astronauts = [
     bio: "First American woman in space aboard Space Shuttle Challenger. Physicist and advocate for science education.",
     image_url: "https://example.com/sally-ride.jpg",
     status: "deceased",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Chris Hadfield",
@@ -642,7 +904,7 @@ astronauts = [
     bio: "First Canadian to walk in space. Commander of the International Space Station and social media pioneer.",
     image_url: "https://example.com/chris-hadfield.jpg",
     status: "retired",
-    organization: Organization.find_by(name: "NASA")
+    organization_id: Organization.find_by(name: "NASA").id
   },
   {
     name: "Rakesh Sharma",
@@ -650,7 +912,7 @@ astronauts = [
     bio: "First Indian citizen to travel to space aboard Soyuz T-11. Indian Air Force pilot and cosmonaut.",
     image_url: "https://example.com/rakesh-sharma.jpg",
     status: "retired",
-    organization: Organization.find_by(name: "ISRO")
+    organization_id: Organization.find_by(name: "ISRO").id
   },
   {
     name: "Yang Liwei",
@@ -658,7 +920,7 @@ astronauts = [
     bio: "First Chinese astronaut in space aboard Shenzhou 5. People's Liberation Army pilot and taikonaut.",
     image_url: "https://example.com/yang-liwei.jpg",
     status: "retired",
-    organization: Organization.find_by(name: "CNSA")
+    organization_id: Organization.find_by(name: "CNSA").id
   },
   {
     name: "Tim Peake",
@@ -666,7 +928,7 @@ astronauts = [
     bio: "First British ESA astronaut to visit the International Space Station. Army Air Corps officer and space advocate.",
     image_url: "https://example.com/tim-peake.jpg",
     status: "active",
-    organization: Organization.find_by(name: "ESA")
+    organization_id: Organization.find_by(name: "ESA").id
   }
 ]
 
@@ -675,6 +937,53 @@ astronauts.each do |astronaut_data|
 end
 
 puts "Created #{Astronaut.count} astronauts"
+
+# Create Crew Modules
+puts "Creating crew modules..."
+
+crew_modules = [
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Commander Module",
+    mission_role: "Commander",
+    astronaut_id: Astronaut.find_by(name: "Neil Armstrong").id,
+    status: "assigned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Pilot Module",
+    mission_role: "Pilot",
+    astronaut_id: Astronaut.find_by(name: "Buzz Aldrin").id,
+    status: "assigned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Artemis Program"),
+    name: "Mission Specialist Module",
+    mission_role: "Mission Specialist",
+    astronaut_id: Astronaut.find_by(name: "Sally Ride").id,
+    status: "assigned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Gaganyaan"),
+    name: "Commander Module",
+    mission_role: "Commander",
+    astronaut_id: Astronaut.find_by(name: "Rakesh Sharma").id,
+    status: "assigned"
+  },
+  {
+    space_mission: SpaceMission.find_by(name: "Gaganyaan"),
+    name: "Pilot Module",
+    mission_role: "Pilot",
+    astronaut_id: Astronaut.find_by(name: "Chris Hadfield").id,
+    status: "assigned"
+  }
+]
+
+crew_modules.each do |crew_data|
+  CrewModule.create!(crew_data)
+end
+
+puts "Created #{CrewModule.count} crew modules"
 
 # Create News
 puts "Creating news articles..."
@@ -733,16 +1042,194 @@ end
 
 puts "Created #{News.count} news articles"
 
+# Seed Mission Failures Data
+puts "Seeding Mission Failures..."
+
+mission_failures_data = [
+  # ISRO Failures
+  {
+    mission_name: "PSLV-D1 (1993)",
+    failed_stage: "second_stage",
+    notes: "Software bug in onboard guidance/control led to crash • ~12 mins after launch",
+    failure_date: DateTime.parse("1993-09-20"),
+    organization: "ISRO",
+    failure_type: "software"
+  },
+  {
+    mission_name: "GSLV-F06 / GSAT-5P (2010)",
+    failed_stage: "first_stage",
+    notes: "Launch unsuccessful",
+    failure_date: DateTime.parse("2010-12-25"),
+    organization: "ISRO",
+    failure_type: "technical"
+  },
+  {
+    mission_name: "GSLV-D3 / GSAT-4 (2010)",
+    failed_stage: "unknown",
+    notes: "Total mission failure",
+    failure_date: DateTime.parse("2010-04-15"),
+    organization: "ISRO",
+    failure_type: "unknown"
+  },
+  {
+    mission_name: "GSLV-F02 / INSAT-4C (2006)",
+    failed_stage: "unspecified",
+    notes: "Satellite not placed in orbit",
+    failure_date: DateTime.parse("2006-07-10"),
+    organization: "ISRO",
+    failure_type: "technical"
+  },
+  {
+    mission_name: "GSLV-F10 / EOS-03 (2021)",
+    failed_stage: "onboard_abort",
+    notes: "Abort by onboard computer",
+    failure_date: DateTime.parse("2021-08-12"),
+    organization: "ISRO",
+    failure_type: "technical"
+  },
+  {
+    mission_name: "PSLV-C61 / EOS-09 (2025)",
+    failed_stage: "third_stage",
+    notes: "Mid-flight abort; rare PSLV failure",
+    failure_date: DateTime.parse("2025-01-01"),
+    organization: "ISRO",
+    failure_type: "technical"
+  },
+  {
+    mission_name: "Chandrayaan-2 (2019)",
+    failed_stage: "landing",
+    notes: "Communication lost during braking/landing phase",
+    failure_date: DateTime.parse("2019-09-07"),
+    organization: "ISRO",
+    failure_type: "communication"
+  },
+  {
+    mission_name: "Chandrayaan-1 (2009)",
+    failed_stage: "power_system",
+    notes: "Mission ~95% successful despite early loss",
+    failure_date: DateTime.parse("2009-08-29"),
+    organization: "ISRO",
+    failure_type: "power"
+  },
+  
+  # NASA Failures
+  {
+    mission_name: "Mariner 1 (1962)",
+    failed_stage: "post_launch",
+    notes: "Software bug in guidance equations caused course deviation",
+    failure_date: DateTime.parse("1962-07-22"),
+    organization: "NASA",
+    failure_type: "software"
+  },
+  {
+    mission_name: "Glory (2011)",
+    failed_stage: "fairing_separation",
+    notes: "Carrier's fairing didn't separate → satellite re-entered atmosphere",
+    failure_date: DateTime.parse("2011-03-04"),
+    organization: "NASA",
+    failure_type: "hardware"
+  },
+  {
+    mission_name: "Surveyor 2 (1966)",
+    failed_stage: "mid_course_correction",
+    notes: "Crashed before lunar landing",
+    failure_date: DateTime.parse("1966-09-22"),
+    organization: "NASA",
+    failure_type: "guidance"
+  },
+  {
+    mission_name: "Surveyor 4 (1967)",
+    failed_stage: "landing",
+    notes: "Contact lost, likely explosion",
+    failure_date: DateTime.parse("1967-07-14"),
+    organization: "NASA",
+    failure_type: "unknown"
+  },
+  {
+    mission_name: "Apollo 13 (1970)",
+    failed_stage: "mid_mission",
+    notes: "Abort landing; safe return via Lunar Module backup systems",
+    failure_date: DateTime.parse("1970-04-13"),
+    organization: "NASA",
+    failure_type: "hardware"
+  }
+]
+
+mission_failures_data.each do |failure_data|
+  MissionFailure.find_or_create_by(mission_name: failure_data[:mission_name]) do |failure|
+    failure.assign_attributes(failure_data)
+  end
+end
+
+puts "Mission Failures seeded successfully!"
+
+# Seed Future Missions Data
+puts "Seeding Future Missions..."
+
+future_missions_data = [
+  # ISRO Future Missions
+  {
+    mission_name: "Gaganyaan Vyommitra test (2025-12)",
+    planned_stages: "Uncrewed test: expected to pass all stages to simulate human flight",
+    organization: "ISRO",
+    target_date: Date.parse("2025-12-01"),
+    mission_type: "crewed_mission",
+    description: "Uncrewed test flight for Gaganyaan human spaceflight program"
+  },
+  {
+    mission_name: "NISAR (2025-07-30)",
+    planned_stages: "Earth-observation satellite; pass through PSLV/GSLV launch stages",
+    organization: "ISRO",
+    target_date: Date.parse("2025-07-30"),
+    mission_type: "satellite_launch",
+    description: "Joint NASA-ISRO Earth observation satellite"
+  },
+  {
+    mission_name: "Chandrayaan-4 (Sample Return)",
+    planned_stages: "TBD—include lunar touch-down and return phases",
+    organization: "ISRO",
+    target_date: nil,
+    mission_type: "lunar_mission",
+    description: "Lunar sample return mission"
+  },
+  {
+    mission_name: "Chandrayaan-5 (with JAXA rover)",
+    planned_stages: "Future joint lunar mission; multi-stage landing and deployment",
+    organization: "ISRO",
+    target_date: nil,
+    mission_type: "lunar_mission",
+    description: "Joint ISRO-JAXA lunar exploration mission"
+  }
+]
+
+future_missions_data.each do |mission_data|
+  FutureMission.find_or_create_by(mission_name: mission_data[:mission_name]) do |mission|
+    mission.assign_attributes(mission_data)
+  end
+end
+
+puts "Future Missions seeded successfully!"
+
 puts "Database seeding completed successfully!"
 puts "Organizations: #{Organization.count}"
 puts "Rockets: #{Rocket.count}"
 puts "Satellites: #{Satellite.count}"
 puts "Launches: #{Launch.count}"
+puts "Launch-Satellite Associations: #{LaunchSatellite.count}"
+puts "Mission-Rocket Associations: #{MissionRocket.count}"
+puts "Mission-Satellite Associations: #{MissionSatellite.count}"
 puts "News: #{News.count}"
 puts "Space Statistics: #{SpaceStatistic.count}"
 puts "Space Probes: #{SpaceProbe.count}"
 puts "Launch Sites: #{LaunchSite.count}"
 puts "Space Events: #{SpaceEvent.count}"
 puts "Space Missions: #{SpaceMission.count}"
+puts "Mission Milestones: #{MissionMilestone.count}"
+puts "Mission Objectives: #{MissionObjective.count}"
+puts "Crew Modules: #{CrewModule.count}"
 puts "Astronauts: #{Astronaut.count}"
+puts "Mission Failures: #{MissionFailure.count}"
+puts "Future Missions: #{FutureMission.count}"
+
+# Create admin user for development
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

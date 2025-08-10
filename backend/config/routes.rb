@@ -14,6 +14,18 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'dashboard', to: 'dashboard#index'
+      get 'dashboard/launch_success_rates', to: 'dashboard#launch_success_rates'
+      get 'dashboard/top_rockets_by_payload', to: 'dashboard#top_rockets_by_payload'
+      get 'dashboard/mission_cost_estimator', to: 'dashboard#mission_cost_estimator'
+      get 'dashboard/human_space_missions', to: 'dashboard#human_space_missions'
+      get 'dashboard/astronaut_statistics', to: 'dashboard#astronaut_statistics'
+      get 'dashboard/space_mission_timeline', to: 'dashboard#space_mission_timeline'
+      get 'dashboard/launch_trends', to: 'dashboard#launch_trends'
+      get 'dashboard/organization_performance', to: 'dashboard#organization_performance'
+      get 'dashboard/mission_progress_visualization', to: 'dashboard#mission_progress_visualization'
+      get 'dashboard/mission_timeline_visualization', to: 'dashboard#mission_timeline_visualization'
+      get 'dashboard/orbit_distribution', to: 'dashboard#orbit_distribution'
+      get 'dashboard/mission_family_tree', to: 'dashboard#mission_family_tree'
       
       resources :organizations, only: [:index, :show]
       resources :rockets, only: [:index, :show]

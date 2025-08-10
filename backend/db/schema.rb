@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_10_004615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,9 +45,47 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
     t.bigint "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "astronaut_title"
+    t.date "birth_date"
+    t.date "death_date"
+    t.integer "missions_count"
+    t.text "description"
+    t.string "astronaut_type"
     t.index ["nationality"], name: "index_astronauts_on_nationality"
     t.index ["organization_id"], name: "index_astronauts_on_organization_id"
     t.index ["status"], name: "index_astronauts_on_status"
+  end
+
+  create_table "crew_modules", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "mission_role", null: false
+    t.text "past_missions"
+    t.bigint "space_mission_id", null: false
+    t.bigint "astronaut_id", null: false
+    t.string "status", default: "assigned"
+    t.jsonb "mission_history", default: []
+    t.text "specialization"
+    t.integer "experience_years", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["astronaut_id"], name: "index_crew_modules_on_astronaut_id"
+    t.index ["mission_role"], name: "index_crew_modules_on_mission_role"
+    t.index ["space_mission_id"], name: "index_crew_modules_on_space_mission_id"
+    t.index ["status"], name: "index_crew_modules_on_status"
+  end
+
+  create_table "future_missions", force: :cascade do |t|
+    t.string "mission_name", null: false
+    t.text "planned_stages"
+    t.date "target_date"
+    t.string "organization", default: "ISRO"
+    t.string "mission_type"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mission_type"], name: "index_future_missions_on_mission_type"
+    t.index ["organization"], name: "index_future_missions_on_organization"
+    t.index ["target_date"], name: "index_future_missions_on_target_date"
   end
 
   create_table "launch_satellites", force: :cascade do |t|
@@ -87,6 +125,55 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.index ["rocket_id"], name: "index_launches_on_rocket_id"
+  end
+
+  create_table "mission_failures", force: :cascade do |t|
+    t.string "mission_name", null: false
+    t.string "failed_stage"
+    t.text "notes"
+    t.string "organization", default: "ISRO"
+    t.datetime "failure_date"
+    t.string "failure_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["failure_date"], name: "index_mission_failures_on_failure_date"
+    t.index ["failure_type"], name: "index_mission_failures_on_failure_type"
+    t.index ["organization"], name: "index_mission_failures_on_organization"
+  end
+
+  create_table "mission_milestones", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "event_date", null: false
+    t.string "milestone_type", default: "milestone"
+    t.string "status", default: "planned"
+    t.bigint "space_mission_id", null: false
+    t.integer "order_sequence"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_date"], name: "index_mission_milestones_on_event_date"
+    t.index ["milestone_type"], name: "index_mission_milestones_on_milestone_type"
+    t.index ["order_sequence"], name: "index_mission_milestones_on_order_sequence"
+    t.index ["space_mission_id"], name: "index_mission_milestones_on_space_mission_id"
+    t.index ["status"], name: "index_mission_milestones_on_status"
+  end
+
+  create_table "mission_objectives", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.string "objective_type", null: false
+    t.string "color_code", null: false
+    t.integer "priority", default: 1
+    t.bigint "space_mission_id", null: false
+    t.boolean "is_primary", default: false
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["is_primary"], name: "index_mission_objectives_on_is_primary"
+    t.index ["objective_type"], name: "index_mission_objectives_on_objective_type"
+    t.index ["priority"], name: "index_mission_objectives_on_priority"
+    t.index ["space_mission_id"], name: "index_mission_objectives_on_space_mission_id"
   end
 
   create_table "mission_organizations", force: :cascade do |t|
@@ -228,6 +315,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
     t.string "status", default: "planned"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.string "mission_type"
+    t.text "description"
+    t.datetime "launch_date"
+    t.bigint "rocket_id"
+    t.bigint "satellite_id"
+    t.index ["organization_id"], name: "index_space_missions_on_organization_id"
+    t.index ["rocket_id"], name: "index_space_missions_on_rocket_id"
+    t.index ["satellite_id"], name: "index_space_missions_on_satellite_id"
     t.index ["start_date"], name: "index_space_missions_on_start_date"
     t.index ["status"], name: "index_space_missions_on_status"
   end
@@ -244,6 +340,37 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
     t.index ["launch_date"], name: "index_space_probes_on_launch_date"
     t.index ["organization_id"], name: "index_space_probes_on_organization_id"
     t.index ["status"], name: "index_space_probes_on_status"
+  end
+
+  create_table "space_station_missions", force: :cascade do |t|
+    t.bigint "space_station_id", null: false
+    t.bigint "space_mission_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["space_mission_id"], name: "index_space_station_missions_on_space_mission_id"
+    t.index ["space_station_id"], name: "index_space_station_missions_on_space_station_id"
+  end
+
+  create_table "space_stations", force: :cascade do |t|
+    t.string "name"
+    t.bigint "organization_id", null: false
+    t.string "station_type"
+    t.text "description"
+    t.date "launch_date"
+    t.string "status"
+    t.decimal "orbit_altitude"
+    t.integer "crew_capacity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "country"
+    t.string "orbit_type"
+    t.decimal "altitude"
+    t.decimal "inclination"
+    t.decimal "mass"
+    t.decimal "length"
+    t.decimal "width"
+    t.decimal "height"
+    t.index ["organization_id"], name: "index_space_stations_on_organization_id"
   end
 
   create_table "space_statistics", force: :cascade do |t|
@@ -271,10 +398,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
   add_foreign_key "astronaut_missions", "astronauts"
   add_foreign_key "astronaut_missions", "space_missions"
   add_foreign_key "astronauts", "organizations"
+  add_foreign_key "crew_modules", "astronauts", on_delete: :cascade
+  add_foreign_key "crew_modules", "space_missions", on_delete: :cascade
   add_foreign_key "launch_satellites", "launches"
   add_foreign_key "launch_satellites", "satellites"
   add_foreign_key "launch_sites", "organizations"
   add_foreign_key "launches", "rockets"
+  add_foreign_key "mission_milestones", "space_missions", on_delete: :cascade
+  add_foreign_key "mission_objectives", "space_missions", on_delete: :cascade
   add_foreign_key "mission_organizations", "organizations"
   add_foreign_key "mission_organizations", "space_missions"
   add_foreign_key "mission_rockets", "rockets"
@@ -288,5 +419,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_222853) do
   add_foreign_key "satellites", "organizations"
   add_foreign_key "space_event_organizations", "organizations"
   add_foreign_key "space_event_organizations", "space_events"
+  add_foreign_key "space_missions", "organizations"
+  add_foreign_key "space_missions", "rockets", on_delete: :nullify
+  add_foreign_key "space_missions", "satellites", on_delete: :nullify
   add_foreign_key "space_probes", "organizations"
+  add_foreign_key "space_station_missions", "space_missions"
+  add_foreign_key "space_station_missions", "space_stations"
+  add_foreign_key "space_stations", "organizations"
 end

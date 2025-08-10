@@ -11,6 +11,11 @@ class SpaceMission < ApplicationRecord
   has_many :astronaut_missions, dependent: :destroy
   has_many :astronauts, through: :astronaut_missions
   
+  # New associations for enhanced features
+  has_many :mission_milestones, dependent: :destroy
+  has_many :crew_modules, dependent: :destroy
+  has_many :mission_objectives, dependent: :destroy
+  
   validates :name, presence: true
   validates :status, inclusion: { in: %w[planned ongoing completed] }
   validates :start_date, presence: true
@@ -49,5 +54,33 @@ class SpaceMission < ApplicationRecord
     else
       'gray'
     end
+  end
+  
+  # New methods for enhanced features
+  def primary_objectives
+    mission_objectives.primary
+  end
+  
+  def upcoming_milestones
+    mission_milestones.upcoming
+  end
+  
+  def completed_milestones
+    mission_milestones.completed
+  end
+  
+  def assigned_crew
+    crew_modules.assigned
+  end
+  
+  def unassigned_crew_positions
+    crew_modules.where(astronaut: nil)
+  end
+  
+  def milestone_progress
+    total = mission_milestones.count
+    completed = mission_milestones.completed.count
+    return 0 if total.zero?
+    (completed.to_f / total * 100).round(1)
   end
 end 
