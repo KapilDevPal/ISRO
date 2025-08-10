@@ -22864,3 +22864,29 @@ Processing by Api::V1::LaunchesController#index as */*
 Completed 200 OK in 3ms (Views: 0.7ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
 
 
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5073945470573576205) /*application='Backend'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Backend'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Backend'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(5073945470573576205) /*application='Backend'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Backend'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5073945470573576205) /*application='Backend'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Backend'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Backend'*/[0m
+Migrating to CreateMissionFailures (20250810004601)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Backend'*/[0m
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE TABLE "mission_failures" ("id" bigserial primary key, "mission_name" character varying NOT NULL, "failed_stage" character varying, "notes" text, "organization" character varying DEFAULT 'ISRO', "failure_date" timestamp(6), "failure_type" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Backend'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_mission_failures_on_organization" ON "mission_failures" ("organization") /*application='Backend'*/[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE INDEX "index_mission_failures_on_failure_date" ON "mission_failures" ("failure_date") /*application='Backend'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE INDEX "index_mission_failures_on_failure_type" ON "mission_failures" ("failure_type") /*application='Backend'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250810004601') RETURNING "version" /*application='Backend'*/[0m
+  [1m[36mTRANSACTION (10.3ms)[0m  [1m[35mCOMMIT /*application='Backend'*/[0m
+Migrating to CreateFutureMissions (20250810004615)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='Backend'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "future_missions" ("id" bigserial primary key, "mission_name" character varying NOT NULL, "planned_stages" text, "target_date" date, "organization" character varying DEFAULT 'ISRO', "mission_type" character varying, "description" text, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Backend'*/[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE INDEX "index_future_missions_on_organization" ON "future_missions" ("organization") /*application='Backend'*/[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE INDEX "index_future_missions_on_target_date" ON "future_missions" ("target_date") /*application='Backend'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE INDEX "index_future_missions_on_mission_type" ON "future_missions" ("mission_type") /*application='Backend'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250810004615') RETURNING "version" /*application='Backend'*/[0m
+  [1m[36mTRANSACTION (3.4ms)[0m  [1m[35mCOMMIT /*application='Backend'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(5073945470573576205) /*application='Backend'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Backend'*/[0m
