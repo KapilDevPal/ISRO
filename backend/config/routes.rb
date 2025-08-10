@@ -22,6 +22,10 @@ Rails.application.routes.draw do
       get 'dashboard/space_mission_timeline', to: 'dashboard#space_mission_timeline'
       get 'dashboard/launch_trends', to: 'dashboard#launch_trends'
       get 'dashboard/organization_performance', to: 'dashboard#organization_performance'
+      get 'dashboard/mission_progress_visualization', to: 'dashboard#mission_progress_visualization'
+      get 'dashboard/mission_timeline_visualization', to: 'dashboard#mission_timeline_visualization'
+      get 'dashboard/orbit_distribution', to: 'dashboard#orbit_distribution'
+      get 'dashboard/mission_family_tree', to: 'dashboard#mission_family_tree'
       
       resources :organizations, only: [:index, :show]
       resources :rockets, only: [:index, :show]

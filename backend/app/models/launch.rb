@@ -24,8 +24,16 @@ class Launch < ApplicationRecord
     launch_date > Time.current
   end
 
+  def is_upcoming
+    is_upcoming?
+  end
+
   def is_past?
     launch_date <= Time.current
+  end
+
+  def is_past
+    is_past?
   end
 
   def days_until_launch
